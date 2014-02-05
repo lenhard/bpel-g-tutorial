@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process
+    name="Echo"
+    targetNamespace="http://dsg.wiai.uniba.de/bpel/echo"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:ec="http://dsg.wiai.uniba.de/wsdl/echointerface">
+    <import namespace="http://dsg.wiai.uniba.de/wsdl/echointerface" location="EchoInterface.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <partnerLinks>
+        <partnerLink name="MyRoleLink" partnerLinkType="ec:EchoInterfacePartnerLinkType" myRole="echoInterfaceRole"/>
+    </partnerLinks>
+    <variables>
+        <variable name="ReplyData" messageType="ec:echoResponseMessage"/>
+        <variable name="InitData" messageType="ec:echoRequestMessage"/>
+    </variables>
+    <sequence>
+        <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="echo" portType="ec:EchoInterfacePortType" variable="InitData"/>
+        <assign name="AssignReplyData">
+            <copy>
+                <from variable="InitData" part="inputPart"/>
+                <to variable="ReplyData" part="outputPart"/>
+            </copy>
+        </assign>
+        <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="echo" portType="ec:EchoInterfacePortType" variable="ReplyData"/>
+    </sequence>
+</process>

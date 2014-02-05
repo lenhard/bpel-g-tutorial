@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:plink="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+             xmlns:tns="http://dsg.wiai.uniba.de/wsdl/echointerface"
+             name="EchoInterface"
+             targetNamespace="http://dsg.wiai.uniba.de/wsdl/echointerface">
+ 
+    <plink:partnerLinkType name="EchoInterfacePartnerLinkType">
+        <plink:role name="echoInterfaceRole" portType="tns:EchoInterfacePortType"/>
+    </plink:partnerLinkType>
+ 
+    <types>
+        <xsd:schema targetNamespace="http://dsg.wiai.uniba.de/wsdl/echointerface">
+            <xsd:element name="echoRequest" type="xsd:int"/>
+            <xsd:element name="echoResponse" type="xsd:int"/>
+        </xsd:schema>
+    </types>
+ 
+    <message name="echoRequestMessage">
+        <part name="inputPart" element="tns:echoRequest"/>
+    </message>
+    <message name="echoResponseMessage">
+        <part name="outputPart" element="tns:echoResponse"/>
+    </message>
+ 
+    <portType name="EchoInterfacePortType">      
+        <operation name="echo">
+            <input name="echoInput" message="tns:echoRequestMessage"/>
+            <output name="echoOutput" message="tns:echoResponseMessage"/>
+        </operation>
+    </portType>
+ 
+    <binding name="EchoInterfacePortTypeBinding" type="tns:EchoInterfacePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+         
+        <operation name="echo">
+            <soap:operation/>
+            <input name="echoInput">
+                <soap:body use="literal"/>
+            </input>
+            <output name="echoOutput">
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+ 
+</definitions>
